@@ -4,6 +4,8 @@
 
 > Tugas Besar ICT dan Islam · Topik D: Aplikasi Privacy-First Berbasis Prinsip Digital Amanah
 
+**Demo online:** https://tirai-nextjs.vercel.app. Username sama dengan [akun demo](#akun-demo), tetapi password-nya berbeda dari versi lokal dan hanya dibagikan oleh tim.
+
 - **Enkripsi end-to-end:** server, admin, dan pengembang tidak bisa membaca data mustahik.
 - **Login zero-knowledge:** password tidak pernah dikirim ke server.
 - **Singkap dengan tujuan:** amil wajib menulis alasan sebelum membuka data, dan mustahik bisa melihat catatannya (QS. Al-Hujurat: 12).
@@ -33,7 +35,7 @@ Buka http://localhost:3000.
 
 ### Akun demo
 
-Semua akun memakai password **`tirai-demo-2026`**, hanya untuk pengembangan lokal. Nama, NIK, dan alamat di data demo semuanya fiktif.
+Semua akun memakai password **`tirai-demo-2026`**, hanya untuk pengembangan lokal (demo online memakai password lain). Nama, NIK, dan alamat di data demo semuanya fiktif.
 
 | Username | Peran | Yang bisa dicoba |
 |---|---|---|

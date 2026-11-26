@@ -59,6 +59,37 @@ docker compose up -d
 
 Lalu salin `.env.example` menjadi `.env.local`, aktifkan baris `DATABASE_URL`, dan jalankan `npm run db:setup`.
 
+## Deploy sementara (Vercel + Neon)
+
+Gratis, dan link-nya tetap hidup tanpa laptop. Data demo tetap fiktif.
+
+1. **Buat project di Vercel.** Masuk ke [vercel.com](https://vercel.com) dengan akun GitHub, pilih **Add New → Project**, lalu impor repo ini. Sebelum menekan **Deploy**, tambahkan Environment Variable `AUTH_SECRET` berisi string acak dari perintah ini:
+
+   ```bash
+   node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+   ```
+
+2. **Tambahkan database.** Di project Vercel, buka **Storage → Create Database → Neon**, pilih region **Singapore**, lalu hubungkan ke project untuk semua environment. Vercel akan mengisi `DATABASE_URL` (lewat pooler) dan `DATABASE_URL_UNPOOLED` secara otomatis.
+
+3. **Isi tabel dan akun demo dari laptop.** Buat file `.env.deploy` di folder proyek. File ini otomatis diabaikan git:
+
+   ```bash
+   DATABASE_URL=<isi dengan DATABASE_URL_UNPOOLED dari Neon>
+   DEMO_PASSWORD=<password baru, minimal 12 karakter>
+   ```
+
+   Lalu jalankan:
+
+   ```bash
+   npm run db:setup:deploy
+   ```
+
+   Seed menolak password bawaan README untuk basis data non-lokal, karena siapa pun yang membaca README bisa masuk sebagai amil. Bagikan `DEMO_PASSWORD` hanya ke tim dan dosen.
+
+4. **Deploy ulang.** Di Vercel buka **Deployments**, klik **⋯** pada deployment terakhir, lalu pilih **Redeploy** supaya `DATABASE_URL` terbaca. Opsional: atur **Settings → Functions → Region** ke Singapore supaya dekat dengan database.
+
+Setelah selesai dipakai, hapus database Neon dan project Vercel-nya.
+
 ## Perintah
 
 | Perintah | Fungsi |
@@ -69,6 +100,7 @@ Lalu salin `.env.example` menjadi `.env.local`, aktifkan baris `DATABASE_URL`, d
 | `npm run lint` | ESLint |
 | `npm run build` | Build produksi |
 | `npm run db:setup` | Migrasi + data demo |
+| `npm run db:setup:deploy` | Migrasi + data demo ke basis data di `.env.deploy` (untuk deploy) |
 | `npm run db:reset` | Menghapus database PGlite lokal (lalu jalankan `db:setup` lagi) |
 | `npm run db:generate` | Membuat file migrasi baru setelah `schema.ts` diubah |
 

@@ -36,7 +36,25 @@ import { type Db, createDb } from "../src/lib/db/client";
 import { ASNAF, PROGRAMS, donations, mustahik, mustahikKeys, unitMembers, units, users } from "../src/lib/db/schema";
 import type { Role } from "../src/lib/rbac";
 
-const DEMO_PASSWORD = process.env.DEMO_PASSWORD ?? "tirai-demo-2026";
+const DEFAULT_DEMO_PASSWORD = "tirai-demo-2026";
+const DEMO_PASSWORD = process.env.DEMO_PASSWORD ?? DEFAULT_DEMO_PASSWORD;
+
+// Password bawaan tertulis di README publik. Jangan pakai untuk basis data yang bisa
+// diakses dari internet (mis. Neon untuk deploy), karena siapa pun bisa masuk sebagai amil.
+function assertSafeDemoPassword() {
+  const url = process.env.DATABASE_URL;
+  if (!url) return;
+  const host = new URL(url).hostname;
+  const isLocal = ["localhost", "127.0.0.1", "::1", "[::1]"].includes(host);
+  if (!isLocal && DEMO_PASSWORD === DEFAULT_DEMO_PASSWORD) {
+    throw new Error(
+      `Basis data ${host} bukan lokal. Isi DEMO_PASSWORD dengan password baru, jangan pakai password bawaan dari README.`,
+    );
+  }
+  if (!isLocal && DEMO_PASSWORD.length < 12) {
+    throw new Error("DEMO_PASSWORD untuk basis data publik minimal 12 karakter.");
+  }
+}
 
 async function createUser(db: Db, username: string, displayName: string, role: Role) {
   const salt = randomBytes(16);
@@ -127,6 +145,7 @@ async function createMustahik(
 }
 
 async function main() {
+  assertSafeDemoPassword();
   const handle = await createDb();
   const { db } = handle;
 

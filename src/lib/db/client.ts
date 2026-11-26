@@ -17,7 +17,9 @@ export async function createDb(): Promise<DbHandle> {
   if (url) {
     const { default: postgres } = await import("postgres");
     const { drizzle } = await import("drizzle-orm/postgres-js");
-    const sql = postgres(url, { max: 10 });
+    // prepare: false supaya aman lewat connection pooler (mis. Neon/PgBouncer mode transaksi).
+    // Di Vercel tiap instance fungsi punya pool sendiri, jadi pool-nya dibuat kecil.
+    const sql = postgres(url, { max: process.env.VERCEL ? 3 : 10, prepare: false, idle_timeout: 20 });
     return { db: drizzle(sql, { schema }) as unknown as Db, kind: "postgres", close: () => sql.end() };
   }
   const { mkdirSync } = await import("node:fs");

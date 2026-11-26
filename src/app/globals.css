@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+/* Font dari next/font (diunduh saat build, browser tidak menghubungi Google). */
+@theme inline {
+  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fredoka), var(--font-nunito), ui-sans-serif, sans-serif;
+}
+
+@theme {
+  --font-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, monospace;
+
+  /* Kertas */
+  --color-paper-50: #fffaf0;
+  --color-paper-100: #f4ead8;
+  --color-paper-200: #efe3cb;
+  --color-paper-300: #e8d9bb;
+  --color-paper-400: #d8c7a6;
+  --color-paper-500: #b9a682;
+
+  /* Tinta */
+  --color-ink-900: #2b2a26;
+  --color-ink-700: #4a4336;
+  --color-ink-500: #6b5f4b;
+  --color-ink-400: #8f826b;
+
+  /* Hijau tua: warna utama */
+  --color-pine-50: #e7f0ed;
+  --color-pine-100: #cfe0db;
+  --color-pine-500: #3f7a71;
+  --color-pine-700: #2f5d57;
+  --color-pine-800: #254b46;
+  --color-pine-900: #1f3f3b;
+  --color-pine-950: #1a3532;
+
+  /* Sage */
+  --color-sage-100: #e3e8d2;
+  --color-sage-400: #a8b89a;
+  --color-sage-600: #8a9a5b;
+  --color-sage-800: #5d6b35;
+
+  /* Terakota */
+  --color-clay-100: #f6dccf;
+  --color-clay-400: #e08a63;
+  --color-clay-500: #d9774b;
+  --color-clay-600: #b65a35;
+  --color-clay-800: #7f3b1f;
+
+  /* Mustard */
+  --color-mustard-100: #f8ecd0;
+  --color-mustard-400: #e3b04b;
+  --color-mustard-700: #85601a;
+
+  --animate-rise: rise 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-drop: drop 0.5s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes drop {
+    from {
+      opacity: 0;
+      transform: translateY(-14px) rotate(var(--tilt, 0deg));
+    }
+    to {
+      opacity: 1;
+      transform: rotate(var(--tilt, 0deg));
+    }
+  }
+}
+
+html {
+  color-scheme: light;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--color-paper-100);
+  color: var(--color-ink-900);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-mustard-400);
+  color: var(--color-ink-900);
+}
+
+dialog::backdrop {
+  background: rgb(26 53 50 / 0.6);
+}
+
+/* Tepi kertas sobek / digunting */
+.edge-torn {
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 94% 92%, 88% 82%, 80% 94%, 71% 83%, 63% 95%, 55% 84%, 46% 94%, 38% 82%, 29% 93%, 21% 83%, 12% 95%, 5% 84%, 0 92%);
+}
+.edge-zigzag {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), 97.5% 100%, 95% calc(100% - 10px), 92.5% 100%, 90% calc(100% - 10px), 87.5% 100%, 85% calc(100% - 10px), 82.5% 100%, 80% calc(100% - 10px), 77.5% 100%, 75% calc(100% - 10px), 72.5% 100%, 70% calc(100% - 10px), 67.5% 100%, 65% calc(100% - 10px), 62.5% 100%, 60% calc(100% - 10px), 57.5% 100%, 55% calc(100% - 10px), 52.5% 100%, 50% calc(100% - 10px), 47.5% 100%, 45% calc(100% - 10px), 42.5% 100%, 40% calc(100% - 10px), 37.5% 100%, 35% calc(100% - 10px), 32.5% 100%, 30% calc(100% - 10px), 27.5% 100%, 25% calc(100% - 10px), 22.5% 100%, 20% calc(100% - 10px), 17.5% 100%, 15% calc(100% - 10px), 12.5% 100%, 10% calc(100% - 10px), 7.5% 100%, 5% calc(100% - 10px), 2.5% 100%, 0 calc(100% - 10px));
+}
+.tag-notch {
+  clip-path: polygon(8px 0, 100% 0, 100% 100%, 8px 100%, 0 50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,15 @@
+# PostgreSQL untuk pengembangan. Opsional: tanpa ini, Tirai memakai PGlite.
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: tirai
+      POSTGRES_PASSWORD: tirai
+      POSTGRES_DB: tirai
+    ports:
+      - "5432:5432"
+    volumes:
+      - tirai-db:/var/lib/postgresql/data
+
+volumes:
+  tirai-db:
